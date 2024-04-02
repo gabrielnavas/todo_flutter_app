@@ -22,6 +22,7 @@ class TodoListScreen extends StatelessWidget {
           side: const BorderSide(width: 3, color: Colors.transparent),
           borderRadius: BorderRadius.circular(100),
         ),
+        backgroundColor: Theme.of(context).colorScheme.onSecondary,
         child: Icon(
           Icons.add,
           color: Theme.of(context).colorScheme.onSurface,
@@ -41,7 +42,7 @@ class TodoListScreen extends StatelessWidget {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.secondary,
         ),
         child: ListView.builder(
           itemCount: todoList.itemsCount,
