@@ -13,25 +13,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const colorScheme = ColorScheme(
+      brightness: Brightness.dark,
+      primary: Color.fromARGB(255, 74, 74, 74),
+      onPrimary: Color.fromARGB(255, 255, 255, 255),
+      onSecondary: Color.fromARGB(255, 147, 149, 211),
+      secondary: Color.fromARGB(120, 147, 149, 211),
+      error: Colors.redAccent,
+      onError: Color.fromARGB(170, 255, 82, 82),
+      background: Color.fromARGB(120, 147, 149, 211),
+      onBackground: Color.fromARGB(120, 147, 149, 211),
+      surface: Color(0xff9395D3),
+      onSurface: Color.fromARGB(255, 36, 36, 36),
+    );
+
     return ChangeNotifierProvider(
       create: (_) => TodoListProvider(),
       child: MaterialApp(
         title: 'Todo App',
         themeMode: ThemeMode.light,
         theme: ThemeData(
-          colorScheme: const ColorScheme(
-            brightness: Brightness.dark,
-            primary: Color(0xff9395D3),
-            onPrimary: Color(0xff9395D3),
-            onSecondary: Color.fromARGB(120, 147, 149, 211),
-            secondary: Color.fromARGB(120, 147, 149, 211),
-            error: Colors.redAccent,
-            onError: Color.fromARGB(170, 255, 82, 82),
-            background: Color.fromARGB(120, 147, 149, 211),
-            onBackground: Color.fromARGB(120, 147, 149, 211),
-            surface: Color.fromARGB(50, 147, 149, 211),
-            onSurface: Colors.white,
-          ),
+          colorScheme: colorScheme,
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: const AppBarTheme(
             elevation: 0,
@@ -56,6 +58,11 @@ class MyApp extends StatelessWidget {
             textColor: Color(0xff9395D3),
             iconColor: Color(0xff9395D3),
             titleAlignment: ListTileTitleAlignment.center,
+          ),
+          inputDecorationTheme: const InputDecorationTheme(
+            hintStyle: TextStyle(
+              color: Color.fromARGB(225, 163, 163, 163),
+            ),
           ),
         ),
         routes: Routes.routes(),
