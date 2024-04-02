@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:todo_app/data/todo_list_data.dart';
 import 'package:todo_app/models/todo.dart';
@@ -10,16 +8,8 @@ class TodoListProvider with ChangeNotifier {
   int get itemsCount => _items.length;
   List<Todo> get items => [..._items];
 
-  void add(String title, String description) {
-    _items.add(
-      Todo(
-        id: Random().nextDouble().toString(),
-        title: title,
-        description: description,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      ),
-    );
+  void add(Todo todo) {
+    _items.add(todo);
   }
 
   void partialUpdate(String id, String title, String description) {
