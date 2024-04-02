@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
+import 'package:todo_app/routes.dart';
 import 'package:todo_app/screens/todo_home_screen.dart';
 
 void main() {
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
             titleAlignment: ListTileTitleAlignment.center,
           ),
         ),
+        routes: Routes.routes(),
         home: const TodoHomeScreen(),
       ),
     );
