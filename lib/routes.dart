@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/screens/todo_home_screen.dart';
+import 'package:todo_app/screens/todo_list_screen.dart';
 import 'package:todo_app/screens/todo_item_screen.dart';
 
 class Routes {
@@ -8,7 +8,7 @@ class Routes {
 
   static Map<String, Widget Function(BuildContext)> routes() {
     return {
-      "home": (_) => const TodoHomeScreen(),
+      "home": (_) => const TodoListScreen(),
       "todo_item": (_) => const TodoItemScreen(),
     };
   }

@@ -5,8 +5,8 @@ import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/routes.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
-class TodoHomeScreen extends StatelessWidget {
-  const TodoHomeScreen({super.key});
+class TodoListScreen extends StatelessWidget {
+  const TodoListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
