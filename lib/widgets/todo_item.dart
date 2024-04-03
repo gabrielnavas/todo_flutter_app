@@ -18,7 +18,7 @@ class TodoItem extends StatelessWidget {
 
     return Card(
       elevation: 5,
-      margin: const EdgeInsets.only(left: 10, right: 10, top: 17),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
