@@ -116,7 +116,7 @@ class TodoItem extends StatelessWidget {
             width: spaceBetweenIcons,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => _removeTodoItem(context, todo.id),
             icon: const Icon(
               Icons.remove_circle_outline_outlined,
               size: iconSize,
@@ -160,5 +160,82 @@ class TodoItem extends StatelessWidget {
   void _toggleCompleted(final BuildContext context, final String todoId) {
     Provider.of<TodoListProvider>(context, listen: false)
         .toggleCompleted(todoId);
+  }
+
+  _removeTodoItem(BuildContext context, String todoId) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          color: Theme.of(context).colorScheme.onSecondary,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Deseja remover essa tarefa?',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                      ),
+                      child: Text(
+                        'Sim',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        Provider.of<TodoListProvider>(context, listen: false)
+                            .remove(todoId);
+
+                        Navigator.pop(context);
+                        _showMessage(context, 'Todo removido');
+                      },
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onPrimary,
+                      ),
+                      child: Text(
+                        'Não',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showMessage(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 }

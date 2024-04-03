@@ -49,5 +49,6 @@ class TodoListProvider with ChangeNotifier {
 
   void remove(String id) {
     _items.removeWhere((element) => element.id == id);
+    notifyListeners();
   }
 }
