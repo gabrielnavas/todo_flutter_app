@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/routes.dart';
+import 'package:todo_app/widgets/snack_message.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
@@ -199,15 +200,26 @@ class TodoItem extends StatelessWidget {
   }
 
   void _editTodoItem(final BuildContext context, final Todo todo) {
-    Navigator.of(context).pushNamed(
-      Routes.todoItem,
-      arguments: todo,
-    );
+    Navigator.of(context)
+        .pushNamed(
+          Routes.todoItem,
+          arguments: todo,
+        )
+        .then((_) => SnackMessage.show(context, 'Tarefa editada!'));
   }
 
   void _toggleCompleted(final BuildContext context, final String todoId) {
     Provider.of<TodoListProvider>(context, listen: false)
-        .toggleCompleted(todoId);
+        .toggleCompleted(todoId)
+        .then(
+      (_) {
+        if (todo.completed) {
+          SnackMessage.show(context, 'Tarefa concluída!');
+        } else {
+          SnackMessage.show(context, 'Tarefa em andamento!');
+        }
+      },
+    );
   }
 
   _removeTodoItem(BuildContext context, String todoId) {
@@ -250,7 +262,7 @@ class TodoItem extends StatelessWidget {
                             .remove(todoId);
 
                         Navigator.pop(context);
-                        _showMessage(context, 'Todo removido');
+                        SnackMessage.show(context, 'Tarefa removida');
                       },
                     ),
                     const SizedBox(
@@ -278,12 +290,5 @@ class TodoItem extends StatelessWidget {
         );
       },
     );
-  }
-
-  void _showMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-    ));
   }
 }

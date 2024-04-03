@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/routes.dart';
+import 'package:todo_app/widgets/snack_message.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
 enum MenuBottomSelection { all, completed }
@@ -53,9 +54,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(Routes.todoItem);
-        },
+        onPressed: _newTodo,
         shape: RoundedRectangleBorder(
           side: const BorderSide(width: 3, color: Colors.transparent),
           borderRadius: BorderRadius.circular(100),
@@ -161,5 +160,13 @@ class _TodoListScreenState extends State<TodoListScreen> {
         ),
       ),
     );
+  }
+
+  void _newTodo() {
+    Navigator.of(context).pushNamed(Routes.todoItem).then((messageSuccess) {
+      if (messageSuccess != null && (messageSuccess as String).isNotEmpty) {
+        SnackMessage.show(context, messageSuccess);
+      }
+    });
   }
 }

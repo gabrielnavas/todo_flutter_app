@@ -136,11 +136,13 @@ class _TodoItemFormState extends State<TodoItemForm> {
     );
 
     Provider.of<TodoListProvider>(context, listen: false).add(todo);
-    Navigator.of(context).pop();
+    const String messageSuccessCreateNewTodo = "Tarefa adicionada!";
+    Navigator.of(context).pop(messageSuccessCreateNewTodo);
   }
 
   void updateTodo() {
     Provider.of<TodoListProvider>(context, listen: false).partialUpdate(_todo);
-    Navigator.of(context).pop();
+    const String successUpdateTodo = "Tarefa atualizada!";
+    Navigator.of(context).pop(successUpdateTodo);
   }
 }
