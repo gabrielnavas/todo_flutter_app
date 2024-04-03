@@ -69,11 +69,11 @@ class _TodoListScreenState extends State<TodoListScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
+            icon: Icon(Icons.list),
             label: 'Todos',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            icon: Icon(Icons.check),
             label: 'Finalizados',
           ),
         ],
