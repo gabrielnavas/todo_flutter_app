@@ -21,7 +21,7 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
-  MenuBottomSelection menuBottomIndex = MenuBottomSelection.all;
+  MenuBottomSelection _menuBottomIndex = MenuBottomSelection.all;
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
       context,
       listen: false,
     );
-    if (menuBottomIndex == MenuBottomSelection.completed) {
+    if (_menuBottomIndex == MenuBottomSelection.completed) {
       await todoList.filterCompletedItems();
     } else {
       await todoList.allItems();
@@ -44,7 +44,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
   void _onItemTapped(MenuBottomSelection menuBottomSelection) {
     setState(() {
-      menuBottomIndex = menuBottomSelection;
+      _menuBottomIndex = menuBottomSelection;
     });
   }
 
@@ -76,7 +76,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
             label: 'Finalizados',
           ),
         ],
-        currentIndex: menuBottomIndex.index,
+        currentIndex: _menuBottomIndex.index,
         selectedItemColor: Theme.of(context).colorScheme.surface,
         unselectedItemColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -152,7 +152,9 @@ class _TodoListScreenState extends State<TodoListScreen> {
   Center _emptyListMessage() {
     return Center(
       child: Text(
-        'Adicione uma tarefa!',
+        _menuBottomIndex == MenuBottomSelection.completed
+            ? 'Finalize alguma tarefa'
+            : 'Adicione uma tarefa!',
         style: TextStyle(
           color: Theme.of(context).colorScheme.primary,
           fontWeight: FontWeight.bold,
