@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
@@ -15,6 +16,15 @@ class TodoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
+    final date = todo.createdAt.isAfter(todo.updatedAt)
+        ? todo.updatedAt
+        : todo.createdAt;
+    final preString = todo.createdAt.isAfter(todo.updatedAt)
+        ? "\'Atualizado em\'"
+        : "\'Criado em \'";
+    String formattedDateTime =
+        DateFormat('$preString dd-MM-yyyy \'às\' HH:mm:ss').format(date);
 
     return Card(
       elevation: 5,
@@ -35,7 +45,19 @@ class TodoItem extends StatelessWidget {
             width,
           ),
           title: _title(context),
-          subtitle: _subtitle(context),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _subtitle(context),
+              Text(
+                formattedDateTime,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 10.5,
+                ),
+              ), // se tiver atualização, mostra, se não mostra a data de criação (atualizado em...) ou (criado em ....)
+            ],
+          ),
           onTap: () {},
         ),
       ),
