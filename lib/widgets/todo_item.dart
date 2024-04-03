@@ -14,21 +14,28 @@ class TodoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.white,
-      ),
+    return Card(
+      elevation: 5,
       margin: const EdgeInsets.only(left: 10, right: 10, top: 17),
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-      child: ListTile(
-        trailing: _trailingActions(
-          context,
-          width,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.0),
+          color: Colors.white,
         ),
-        title: _title(),
-        subtitle: _subtitle(),
-        onTap: () {},
+        child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 17.5),
+          trailing: _trailingActions(
+            context,
+            width,
+          ),
+          title: _title(),
+          subtitle: _subtitle(),
+          onTap: () {},
+        ),
       ),
     );
   }
