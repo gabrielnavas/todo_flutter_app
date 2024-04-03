@@ -35,6 +35,7 @@ class TodoRepositorySqlite {
     final db = await database();
     return await db.query(
       _tableName,
+      orderBy: "completed ASC, created_at DESC, updated_at DESC",
     );
   }
 
@@ -43,6 +44,7 @@ class TodoRepositorySqlite {
     return await db.query(
       _tableName,
       where: 'completed = 1',
+      orderBy: "created_at DESC, updated_at DESC",
     );
   }
 
