@@ -103,29 +103,17 @@ class _TodoListScreenState extends State<TodoListScreen> {
             future: _loadTodos(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    Center(
-                      child: Text('Carregando Tarefas.'),
-                    ),
-                  ],
-                );
+                return _waitingItems();
               }
 
               if (!snapshot.hasData) {
-                return const Center(
-                  child: Text('Adicione uma tarefa!'),
-                );
+                return _emptyListMessage();
               }
 
               final List<Todo> items = snapshot.data as List<Todo>;
 
               if (items.isEmpty) {
-                return const Center(
-                  child: Text('Adicione uma tarefa!'),
-                );
+                return _emptyListMessage();
               }
 
               return ListView.builder(
@@ -135,6 +123,43 @@ class _TodoListScreenState extends State<TodoListScreen> {
               );
             },
           )),
+    );
+  }
+
+  Column _waitingItems() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Center(
+          child: Text(
+            'Carregando Tarefas.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Center _emptyListMessage() {
+    return Center(
+      child: Text(
+        'Adicione uma tarefa!',
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
+          fontWeight: FontWeight.bold,
+          fontSize: 25,
+        ),
+      ),
     );
   }
 }
