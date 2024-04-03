@@ -84,6 +84,10 @@ class TodoItem extends StatelessWidget {
         todo.createdAt.second != todo.updatedAt.second;
   }
 
+  bool isCompleted() {
+    return todo.completed;
+  }
+
   Text _subtitle(BuildContext context) {
     return Text(
       todo.description,
@@ -141,19 +145,21 @@ class TodoItem extends StatelessWidget {
     return SizedBox(
       width: widthSizedBox,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          IconButton(
-            onPressed: () => _editTodoItem(context, todo),
-            icon: const Icon(
-              Icons.edit_outlined,
-              size: iconSize,
-            ),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith(
-                (states) => const Color.fromARGB(25, 193, 193, 193),
+          if (!isCompleted())
+            IconButton(
+              onPressed: () => _editTodoItem(context, todo),
+              icon: const Icon(
+                Icons.edit_outlined,
+                size: iconSize,
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                  (states) => const Color.fromARGB(25, 193, 193, 193),
+                ),
               ),
             ),
-          ),
           const SizedBox(
             width: spaceBetweenIcons,
           ),
