@@ -1,16 +1,20 @@
-# todo_app
+# Todo List App
 
-A new Flutter project.
+<br>
 
-## Getting Started
+## Screens
 
-This project is a starting point for a Flutter application.
+### Todo List 
+![Todo List](docs/images/todo_list.png "Todo List")
 
-A few resources to get you started if this is your first Flutter project:
+### Todo List Completed 
+![Todo List Completed](docs/images/todo_compled.png "Todo List Completed")
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### New Todo Form 
+![New Todo Form](docs/images/new_todo_form.png "New Todo Form")
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Update Todo Form 
+![Update Todo Form](docs/images/update_todo.png "Update Todo Form")
+
+### Remove Todo 
+![Remove Todo](docs/images/remove_todo_shield.png "Remove Todo")
