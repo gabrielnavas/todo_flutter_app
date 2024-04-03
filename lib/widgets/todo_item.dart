@@ -46,33 +46,49 @@ class TodoItem extends StatelessWidget {
     return Text(
       todo.description,
       style: todo.completed
-          ? TextStyle(
-              fontSize: 17,
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.w300,
-              decoration: TextDecoration.lineThrough,
-              decorationColor: Theme.of(context).colorScheme.primary,
-            )
-          : TextStyle(
-              fontSize: 17,
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.w500,
-            ),
+          ? subtitleCompleted(context)
+          : subtitleNotCompleted(context),
+    );
+  }
+
+  TextStyle subtitleCompleted(BuildContext context) {
+    return TextStyle(
+      fontSize: 17,
+      color: Theme.of(context).colorScheme.primary,
+      fontWeight: FontWeight.w300,
+      decoration: TextDecoration.lineThrough,
+      decorationColor: Theme.of(context).colorScheme.primary,
+    );
+  }
+
+  TextStyle subtitleNotCompleted(BuildContext context) {
+    return TextStyle(
+      fontSize: 17,
+      color: Theme.of(context).colorScheme.primary,
+      fontWeight: FontWeight.w500,
     );
   }
 
   Text _title(BuildContext context) {
-    return Text(todo.title,
-        style: todo.completed
-            ? TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w300,
-                decoration: TextDecoration.lineThrough,
-                decorationColor: Theme.of(context).colorScheme.primary,
-              )
-            : const TextStyle(
-                fontSize: 20,
-              ));
+    return Text(
+      todo.title,
+      style: todo.completed ? _titleCompleted(context) : _titleNotCompleted(),
+    );
+  }
+
+  TextStyle _titleNotCompleted() {
+    return const TextStyle(
+      fontSize: 20,
+    );
+  }
+
+  TextStyle _titleCompleted(BuildContext context) {
+    return TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w300,
+      decoration: TextDecoration.lineThrough,
+      decorationColor: Theme.of(context).colorScheme.primary,
+    );
   }
 
   SizedBox _trailingActions(BuildContext context, double widthScreen) {
