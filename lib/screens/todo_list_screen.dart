@@ -101,6 +101,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
           color: Theme.of(context).colorScheme.secondary,
         ),
         child: ListView.builder(
+          padding: const EdgeInsets.only(bottom: 150),
           itemCount: todoList.itemsCount,
           itemBuilder: (context, index) => TodoItem(todo: items[index]),
         ),
