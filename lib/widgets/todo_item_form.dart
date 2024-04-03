@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/models/todo.dart';
-import 'package:todo_app/models/todo_form.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
 
 class TodoItemForm extends StatefulWidget {
-  const TodoItemForm({super.key});
+  Todo? todoToEdit;
+  TodoItemForm({this.todoToEdit, super.key});
 
   @override
   State<TodoItemForm> createState() => _TodoItemFormState();
@@ -15,9 +15,29 @@ class _TodoItemFormState extends State<TodoItemForm> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  final TodoForm _todoForm = TodoForm();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  Todo _todo = Todo.titleDescription(title: '', description: '');
+
+  @override
+  void initState() {
+    super.initState();
+    setTodoToEdit();
+  }
+
+  bool isUpdate() {
+    return widget.todoToEdit != null;
+  }
+
+  void setTodoToEdit() {
+    if (widget.todoToEdit != null) {
+      setState(() {
+        _todo = widget.todoToEdit!;
+        _titleController.text = _todo.title;
+        _descriptionController.text = _todo.description;
+      });
+    }
+  }
 
   bool _verifyForm() {
     final bool isValid = _formKey.currentState?.validate() ?? false;
@@ -34,10 +54,11 @@ class _TodoItemFormState extends State<TodoItemForm> {
       return;
     }
 
-    final Todo todo = Todo.from(_todoForm);
-
-    Provider.of<TodoListProvider>(context, listen: false).add(todo);
-    Navigator.of(context).pop();
+    if (isUpdate()) {
+      updateTodo();
+    } else {
+      createNewTodo();
+    }
   }
 
   @override
@@ -55,10 +76,10 @@ class _TodoItemFormState extends State<TodoItemForm> {
             textInputAction: TextInputAction.next,
             autofocus: true,
             validator: (value) => Todo.validateTitle(value ?? ''),
-            onChanged: (value) => setState(() => _todoForm.title = value),
+            onChanged: (value) => setState(() => _todo.title = value),
             onSaved: (title) {
               if (title != null && title.isNotEmpty) {
-                _todoForm.title = title;
+                _todo.title = title;
               }
             },
           ),
@@ -74,10 +95,10 @@ class _TodoItemFormState extends State<TodoItemForm> {
             onFieldSubmitted: (value) => _onSubmit(context),
             autofocus: true,
             validator: (value) => Todo.validateDescription(value ?? ''),
-            onChanged: (value) => setState(() => _todoForm.description = value),
+            onChanged: (value) => setState(() => _todo.description = value),
             onSaved: (description) {
               if (description != null && description.isNotEmpty) {
-                _todoForm.description = description;
+                _todo.description = description;
               }
             },
           ),
@@ -95,7 +116,7 @@ class _TodoItemFormState extends State<TodoItemForm> {
                 ),
               ),
               child: Text(
-                'Adicionar',
+                isUpdate() ? 'Atualizar' : 'Adicionar',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
@@ -106,5 +127,20 @@ class _TodoItemFormState extends State<TodoItemForm> {
         ],
       ),
     );
+  }
+
+  void createNewTodo() {
+    final Todo todo = Todo.titleDescription(
+      title: _titleController.text,
+      description: _descriptionController.text,
+    );
+
+    Provider.of<TodoListProvider>(context, listen: false).add(todo);
+    Navigator.of(context).pop();
+  }
+
+  void updateTodo() {
+    Provider.of<TodoListProvider>(context, listen: false).partialUpdate(_todo);
+    Navigator.of(context).pop();
   }
 }

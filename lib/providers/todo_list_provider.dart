@@ -13,17 +13,19 @@ class TodoListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void partialUpdate(String id, String title, String description) {
-    int todoIndex = findIndexTodo(id);
+  void partialUpdate(Todo newTodo) {
+    int todoIndex = findIndexTodo(newTodo.id);
+    Todo oldTodo = _items[todoIndex];
     if (todoIndex >= 0) {
       _items[todoIndex] = Todo(
-        id: id,
-        title: title,
-        description: description,
-        createdAt: _items[todoIndex].createdAt,
+        id: newTodo.id,
+        title: newTodo.title,
+        description: newTodo.description,
+        createdAt: oldTodo.createdAt,
         updatedAt: DateTime.now(),
       );
     }
+    notifyListeners();
   }
 
   void toggleCompleted(String id) {

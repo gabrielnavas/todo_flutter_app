@@ -8,8 +8,8 @@ class Routes {
 
   static Map<String, Widget Function(BuildContext)> routes() {
     return {
-      "home": (_) => const TodoListScreen(),
-      "todo_item": (_) => const TodoItemScreen(),
+      todoList: (_) => const TodoListScreen(),
+      todoItem: (_) => const TodoItemScreen(),
     };
   }
 }

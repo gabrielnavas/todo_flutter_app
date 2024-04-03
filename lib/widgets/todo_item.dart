@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/models/todo.dart';
+import 'package:todo_app/routes.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
@@ -21,7 +22,10 @@ class TodoItem extends StatelessWidget {
       margin: const EdgeInsets.only(left: 10, right: 10, top: 17),
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
       child: ListTile(
-        trailing: _trailingActions(width),
+        trailing: _trailingActions(
+          context,
+          width,
+        ),
         title: _title(),
         subtitle: _subtitle(),
         onTap: () {},
@@ -46,7 +50,7 @@ class TodoItem extends StatelessWidget {
     );
   }
 
-  SizedBox _trailingActions(double widthScreen) {
+  SizedBox _trailingActions(BuildContext context, double widthScreen) {
     const double iconSize = 25.0;
     const double spaceBetweenIcons = 10.0;
     final widthSizedBox = widthScreen * .40;
@@ -56,7 +60,7 @@ class TodoItem extends StatelessWidget {
       child: Row(
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => _editTodoItem(context, todo),
             icon: const Icon(
               Icons.edit_outlined,
               size: iconSize,
@@ -89,6 +93,13 @@ class TodoItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _editTodoItem(final BuildContext context, final Todo todo) {
+    Navigator.of(context).pushNamed(
+      Routes.todoItem,
+      arguments: todo,
     );
   }
 }

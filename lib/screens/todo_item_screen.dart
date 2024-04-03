@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/widgets/todo_item_form.dart';
 
 class TodoItemScreen extends StatefulWidget {
@@ -11,9 +12,15 @@ class TodoItemScreen extends StatefulWidget {
 class _TodoItemScreenState extends State<TodoItemScreen> {
   @override
   Widget build(BuildContext context) {
+    final Todo? todoToEdit =
+        ModalRoute.of(context)?.settings.arguments as Todo?;
+    final bool isUpdate = todoToEdit != null;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Adicionar Tarefa'),
+        title: Text(
+          isUpdate ? 'Atualizar tarefa' : 'Adicionar Tarefa',
+        ),
         actions: const [
           Icon(
             Icons.date_range,
@@ -27,7 +34,9 @@ class _TodoItemScreenState extends State<TodoItemScreen> {
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-          child: const TodoItemForm(),
+          child: TodoItemForm(
+            todoToEdit: todoToEdit,
+          ),
         ),
       ),
     );

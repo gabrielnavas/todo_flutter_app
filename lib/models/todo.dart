@@ -1,13 +1,11 @@
 import 'dart:math';
 
-import 'package:todo_app/models/todo_form.dart';
-
 class Todo {
   final String id;
-  final String title;
-  final String description;
+  String title;
+  String description;
   final DateTime createdAt;
-  final DateTime updatedAt;
+  DateTime updatedAt;
   bool completed;
 
   Todo({
@@ -18,6 +16,18 @@ class Todo {
     required this.updatedAt,
     this.completed = false,
   });
+
+  static Todo titleDescription({
+    String title = '',
+    String description = '',
+  }) {
+    return Todo(
+        id: Random().nextDouble().toString(),
+        title: title,
+        description: description,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now());
+  }
 
   static String? validateDescription(String description) {
     if (description.isEmpty) {
@@ -39,14 +49,5 @@ class Todo {
     }
 
     return null;
-  }
-
-  static Todo from(TodoForm todoForm) {
-    return Todo(
-        id: Random().nextDouble().toString(),
-        title: todoForm.title,
-        description: todoForm.description,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now());
   }
 }
