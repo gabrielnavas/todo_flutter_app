@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/routes.dart';
 import 'package:todo_app/widgets/todo_item.dart';
@@ -22,6 +21,20 @@ class TodoListScreen extends StatefulWidget {
 class _TodoListScreenState extends State<TodoListScreen> {
   MenuBottomSelection menuBottomIndex = MenuBottomSelection.all;
 
+  @override
+  void initState() {
+    super.initState();
+    final TodoListProvider todoList = Provider.of<TodoListProvider>(
+      context,
+      listen: false,
+    );
+    if (menuBottomIndex == MenuBottomSelection.completed) {
+      todoList.filterCompletedItems();
+    } else {
+      todoList.allItems();
+    }
+  }
+
   void _onItemTapped(MenuBottomSelection menuBottomSelection) {
     setState(() {
       menuBottomIndex = menuBottomSelection;
@@ -31,14 +44,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   Widget build(BuildContext context) {
     final TodoListProvider todoList = Provider.of<TodoListProvider>(context);
-
-    if (menuBottomIndex == MenuBottomSelection.completed) {
-      todoList.filterCompletedItems();
-    } else {
-      todoList.allItems();
-    }
-
-    final List<Todo> items = todoList.items;
+    final items = todoList.items;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -90,7 +96,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
         ),
         child: ListView.builder(
           padding: const EdgeInsets.only(bottom: 150),
-          itemCount: todoList.itemsCount,
+          itemCount: items.length,
           itemBuilder: (context, index) => TodoItem(todo: items[index]),
         ),
       ),

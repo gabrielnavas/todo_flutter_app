@@ -5,7 +5,6 @@ import 'package:todo_app/models/todo.dart';
 class TodoListProvider with ChangeNotifier {
   List<Todo> _items = [];
 
-  int get itemsCount => _items.length;
   List<Todo> get items => [..._items];
 
   void filterCompletedItems() {
@@ -32,8 +31,8 @@ class TodoListProvider with ChangeNotifier {
         createdAt: oldTodo.createdAt,
         updatedAt: DateTime.now(),
       );
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   void toggleCompleted(String id) {

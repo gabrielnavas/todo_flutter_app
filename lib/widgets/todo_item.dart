@@ -17,14 +17,10 @@ class TodoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    final date = todo.createdAt.isAfter(todo.updatedAt)
-        ? todo.updatedAt
-        : todo.createdAt;
-    final preString = todo.createdAt.isAfter(todo.updatedAt)
-        ? "\'Atualizado em\'"
-        : "\'Criado em \'";
+    final date = isUpdate() ? todo.updatedAt : todo.createdAt;
+
     String formattedDateTime =
-        DateFormat('$preString dd-MM-yyyy \'às\' HH:mm:ss').format(date);
+        DateFormat('dd-MM-yyyy \'às\' HH:mm:ss').format(date);
 
     return Card(
       elevation: 5,
@@ -49,19 +45,43 @@ class TodoItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _subtitle(context),
-              Text(
-                formattedDateTime,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 10.5,
-                ),
-              ), // se tiver atualização, mostra, se não mostra a data de criação (atualizado em...) ou (criado em ....)
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.update,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 18,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    formattedDateTime,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 10.5,
+                        fontStyle: FontStyle.italic),
+                  ),
+                ],
+              )
             ],
           ),
           onTap: () {},
         ),
       ),
     );
+  }
+
+  bool isUpdate() {
+    return todo.createdAt.year != todo.updatedAt.year ||
+        todo.createdAt.month != todo.updatedAt.month ||
+        todo.createdAt.day != todo.updatedAt.day ||
+        todo.createdAt.hour != todo.updatedAt.hour ||
+        todo.createdAt.minute != todo.updatedAt.minute ||
+        todo.createdAt.second != todo.updatedAt.second;
   }
 
   Text _subtitle(BuildContext context) {

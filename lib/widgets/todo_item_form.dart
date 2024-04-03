@@ -4,8 +4,8 @@ import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
 
 class TodoItemForm extends StatefulWidget {
-  Todo? todoToEdit;
-  TodoItemForm({this.todoToEdit, super.key});
+  final Todo? todoToEdit;
+  const TodoItemForm({this.todoToEdit, super.key});
 
   @override
   State<TodoItemForm> createState() => _TodoItemFormState();
