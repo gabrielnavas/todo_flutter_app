@@ -5,12 +5,51 @@ import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/routes.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
-class TodoListScreen extends StatelessWidget {
+enum MenuBottomSelection { all, completed }
+
+class TodoListScreen extends StatefulWidget {
   const TodoListScreen({super.key});
+
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Business',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: School',
+      style: optionStyle,
+    ),
+  ];
+
+  @override
+  State<TodoListScreen> createState() => _TodoListScreenState();
+}
+
+class _TodoListScreenState extends State<TodoListScreen> {
+  MenuBottomSelection menuBottomIndex = MenuBottomSelection.all;
+
+  void _onItemTapped(MenuBottomSelection menuBottomSelection) {
+    setState(() {
+      menuBottomIndex = menuBottomSelection;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final TodoListProvider todoList = Provider.of<TodoListProvider>(context);
+
+    if (menuBottomIndex == MenuBottomSelection.completed) {
+      todoList.filterCompletedItems();
+    } else {
+      todoList.allItems();
+    }
+
     final List<Todo> items = todoList.items;
 
     return Scaffold(
@@ -27,6 +66,23 @@ class TodoListScreen extends StatelessWidget {
           Icons.add,
           color: Theme.of(context).colorScheme.onPrimary,
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'Todos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Finalizados',
+          ),
+        ],
+        currentIndex: menuBottomIndex.index,
+        selectedItemColor: Theme.of(context).colorScheme.surface,
+        unselectedItemColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        onTap: (index) => _onItemTapped(MenuBottomSelection.values[index]),
       ),
       appBar: AppBar(
         title: const Text('TODO APP'),

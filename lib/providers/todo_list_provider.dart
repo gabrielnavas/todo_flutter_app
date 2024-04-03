@@ -3,10 +3,18 @@ import 'package:todo_app/data/todo_list_data.dart';
 import 'package:todo_app/models/todo.dart';
 
 class TodoListProvider with ChangeNotifier {
-  final List<Todo> _items = [...TodoListData.data];
+  List<Todo> _items = [];
 
   int get itemsCount => _items.length;
   List<Todo> get items => [..._items];
+
+  void filterCompletedItems() {
+    _items = TodoListData.data.where((item) => item.completed).toList();
+  }
+
+  void allItems() {
+    _items = [...TodoListData.data];
+  }
 
   void add(Todo todo) {
     _items.insert(0, todo);
