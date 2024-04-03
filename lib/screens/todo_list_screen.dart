@@ -25,7 +25,7 @@ class TodoListScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.onSecondary,
         child: Icon(
           Icons.add,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: Theme.of(context).colorScheme.onPrimary,
         ),
       ),
       appBar: AppBar(
