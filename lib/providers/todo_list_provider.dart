@@ -9,7 +9,8 @@ class TodoListProvider with ChangeNotifier {
   List<Todo> get items => [..._items];
 
   void add(Todo todo) {
-    _items.add(todo);
+    _items.insert(0, todo);
+    notifyListeners();
   }
 
   void partialUpdate(String id, String title, String description) {

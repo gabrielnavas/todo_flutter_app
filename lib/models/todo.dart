@@ -19,19 +19,6 @@ class Todo {
     this.completed = false,
   });
 
-  String? validate() {
-    String? titleError = validateTitle(title);
-    if (titleError != null) {
-      return titleError;
-    }
-    String? descriptionError = validateDescription(description);
-    if (descriptionError != null) {
-      return descriptionError;
-    }
-
-    return null;
-  }
-
   static String? validateDescription(String description) {
     if (description.isEmpty) {
       return "Descrição deve ter no mínimo 1 caractere";

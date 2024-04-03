@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/widgets/todo_item_form.dart';
 
 class TodoItemScreen extends StatefulWidget {
   const TodoItemScreen({super.key});
@@ -22,6 +23,12 @@ class _TodoItemScreenState extends State<TodoItemScreen> {
             width: 20,
           )
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+          child: const TodoItemForm(),
+        ),
       ),
     );
   }
