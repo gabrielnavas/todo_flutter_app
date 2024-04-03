@@ -29,6 +29,28 @@ class Todo {
         updatedAt: DateTime.now());
   }
 
+  static Todo fromSQLite(Map<String, dynamic> todoMap) {
+    return Todo(
+      id: todoMap["id"] as String,
+      title: todoMap["title"] as String,
+      description: todoMap["description"] as String,
+      completed: (todoMap["completed"] as int) == 1,
+      createdAt: DateTime.parse(todoMap["created_at"] as String),
+      updatedAt: DateTime.parse(todoMap["updated_at"] as String),
+    );
+  }
+
+  static Map<String, Object> toSQLite(Todo todo) {
+    return {
+      "id": todo.id,
+      "title": todo.title,
+      "description": todo.description,
+      "completed": todo.completed ? 1 : 0,
+      "created_at": todo.createdAt.toIso8601String(),
+      "updated_at": todo.updatedAt.toIso8601String(),
+    };
+  }
+
   static String? validateDescription(String description) {
     if (description.isEmpty) {
       return "Descrição deve ter no mínimo 1 caractere";

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/routes.dart';
 import 'package:todo_app/widgets/todo_item.dart';
@@ -24,15 +25,20 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<List<Todo>> _loadTodos() async {
     final TodoListProvider todoList = Provider.of<TodoListProvider>(
       context,
       listen: false,
     );
     if (menuBottomIndex == MenuBottomSelection.completed) {
-      todoList.filterCompletedItems();
+      await todoList.filterCompletedItems();
     } else {
-      todoList.allItems();
+      await todoList.allItems();
     }
+
+    return todoList.items;
   }
 
   void _onItemTapped(MenuBottomSelection menuBottomSelection) {
@@ -43,8 +49,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TodoListProvider todoList = Provider.of<TodoListProvider>(context);
-    final items = todoList.items;
+    Provider.of<TodoListProvider>(context);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -91,15 +96,45 @@ class _TodoListScreenState extends State<TodoListScreen> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
-        child: ListView.builder(
-          padding: const EdgeInsets.only(bottom: 150),
-          itemCount: items.length,
-          itemBuilder: (context, index) => TodoItem(todo: items[index]),
-        ),
-      ),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          child: FutureBuilder(
+            future: _loadTodos(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    Center(
+                      child: Text('Carregando Tarefas.'),
+                    ),
+                  ],
+                );
+              }
+
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: Text('Adicione uma tarefa!'),
+                );
+              }
+
+              final List<Todo> items = snapshot.data as List<Todo>;
+
+              if (items.isEmpty) {
+                return const Center(
+                  child: Text('Adicione uma tarefa!'),
+                );
+              }
+
+              return ListView.builder(
+                padding: const EdgeInsets.only(bottom: 150),
+                itemCount: items.length,
+                itemBuilder: (context, index) => TodoItem(todo: items[index]),
+              );
+            },
+          )),
     );
   }
 }
