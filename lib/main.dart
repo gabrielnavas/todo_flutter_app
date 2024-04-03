@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Todo App',
         themeMode: ThemeMode.light,
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: colorScheme,
           scaffoldBackgroundColor: Colors.white,
