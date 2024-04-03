@@ -32,6 +32,7 @@ class TodoListProvider with ChangeNotifier {
     int todoIndex = findIndexTodo(id);
     if (todoIndex >= 0) {
       _items[todoIndex].completed = !_items[todoIndex].completed;
+      notifyListeners();
     }
   }
 
